@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Display Input Value</title>
+</head>
+<body>
+
+<h2>Display Input Value</h2>
+<form id="inputForm">
+  <label for="userInput">Enter your text:</label>
+  <input type="text" id="userInput" name="userInput">
+  <button type="button" id="displayButton">Display</button>
+</form>
+
+<!-- Paragraph element to display input value -->
+<p id="displayParagraph"></p>
+
+<!-- Div element to display error message -->
+<div id="errorDiv" style="color: red;"></div>
+
+<script>
+document.getElementById("displayButton").addEventListener("click", function() {
+  // Get the value of the input field
+  var inputValue = document.getElementById("userInput").value;
+  
+  // Display error message if input field is empty
+  if (inputValue.trim() === "") {
+    document.getElementById("errorDiv").textContent = "Please enter a value.";
+    return;
+  }
+  
+  // Clear error message if input is not empty
+  document.getElementById("errorDiv").textContent = "";
+  
+  // Display the input value in a new paragraph element
+  document.getElementById("displayParagraph").textContent = "Input value: " + inputValue;
+});
+</script>
+
+</body>
+</html>
