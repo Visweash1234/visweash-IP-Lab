@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Expenditure Tracker</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    input[type="text"], select {
+        width: 100%;
+        padding: 8px;
+        margin: 5px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    input[type="submit"] {
+        width: 100%;
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 15px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+</style>
+</head>
+<body>
+
+<h2>Expenditure Tracker</h2>
+
+<form id="expenditureForm">
+    <label for="category">Category:</label>
+    <select id="category">
+        <option value="food">Food</option>
+        <option value="entertainment">Entertainment</option>
+        <option value="transportation">Transportation</option>
+        <option value="housing">Housing</option>
+        <!-- Add more categories as needed -->
+    </select>
+    <label for="amount">Amount:</label>
+    <input type="text" id="amount" name="amount" placeholder="Enter amount spent..">
+    <input type="submit" value="Add Expenditure">
+</form>
+
+<div id="summary">
+    <h3>Expenditure Summary</h3>
+    <table id="summaryTable">
+        <tr>
+            <th>Category</th>
+            <th>Total Expenditure</th>
+        </tr>
+    </table>
+    <div id="total">Total Expenditure: $<span id="totalAmount">0.00</span></div>
+</div>
+
+<script>
+    // Function to handle form submission
+    document.getElementById("expenditureForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Get form values
+        var category = document.getElementById("category").value;
+        var amount = parseFloat(document.getElementById("amount").value);
+
+        // Add expenditure to summary table
+        var summaryTable = document.getElementById("summaryTable");
+        var rows = summaryTable.getElementsByTagName("tr");
+        var found = false;
+        for (var i = 1; i < rows.length; i++) {
+            var cells = rows[i].getElementsByTagName("td");
+            if (cells[0].innerText.toLowerCase() === category.toLowerCase()) {
+                var currentTotal = parseFloat(cells[1].innerText);
+                cells[1].innerText = (currentTotal + amount).toFixed(2);
+                found = true;
+                break;
+            }
+        }
+
+        // If category not found, add a new row
+        if (!found) {
+            var newRow = summaryTable.insertRow(-1);
+            var cell1 = newRow.insertCell(0);
+            var cell2 = newRow.insertCell(1);
+            cell1.innerText = category;
+            cell2.innerText = amount.toFixed(2);
+        }
+
+        // Update total expenditure
+        var totalAmount = parseFloat(document.getElementById("totalAmount").innerText);
+        document.getElementById("totalAmount").innerText = (totalAmount + amount).toFixed(2);
+
+        // Reset form fields
+        document.getElementById("expenditureForm").reset();
+    });
+</script>
+
+</body>
+</html>
